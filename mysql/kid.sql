@@ -11,7 +11,7 @@ CREATE TABLE kid_site_info(
 INSERT INTO kid_site_info VALUES("Colorful World","img.png","copyright");
 #导航条目
 #轮播图
-#商品列表
+#商品列表  <h2 align="center">登录</h2>
 #用户列表
 CREATE TABLE kid_user(
 	uid INT PRIMARY KEY AUTO_INCREMENT,

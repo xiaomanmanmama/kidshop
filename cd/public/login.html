@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function b1(){
+				var val=uname.value
+				if(!val){
+					s1.innerHTML="用户名不能为空"
+					}
+				}
+			function f1(){
+				s1.innerHTML="用户名为6-18位"
+				}
+			function b2(){
+				var val=uname.value
+				if(!val){
+					s2.innerHTML="密码不能为空"
+					}
+				}
+			function f2(){
+				s2.innerHTML="密码为6-20位"
+				}
+			
+		</script>
+		<script>
+			function fn(){
+				var $uname=uname.value;
+				var $upwd=upwd.value;
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText
+						if(result=="1"){
+							alert("登录成功")
+							}else if(result=="0"){
+							alert("用户名或密码错误")
+							}else{
+							alert("未响应")
+							}
+						}
+					}
+					xhr.open("get","/pro/v1/login/"+$uname+"&"+$upwd,true)
+					xhr.send()
+				}
+
+		</script>
+	</head>
+	<body>
+		<input type="text" id="uname" placeholder="请输入您的姓名" onblur="b1()" onfocus="f1()"><span id="s1"></span><br>
+    <input type="text" id="upwd" placeholder="请输入您的密码" onblur="b2()" onfocus="f2()"><span id="s2"></span><br>
+		<button onclick="fn()">登录</button>
+	</body>
+</html>

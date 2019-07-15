@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			
+		</script>
+	</head>
+<body onload="queryUser()">
+	<input type="text" id="lid" readonly><br>
+	<input type="text" id="price"><br>
+	<input type="text" id="title"><br>
+	<input type="text" id="Cname"><br>
+	<input type="text" id="size"><br>
+	<input type="text" id="color"><br>
+	<button onclick="updateproduct()">修改</button>
+</body>
+</html>

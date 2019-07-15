@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function queryUser(){
+				var urlParams=new URLSearchParams(location.search);
+				var $uid=urlParams.get("uid");
+				uid.value=$uid;
+				alert($uid);
+				var xhr=new XMLHttpRequest()
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText;
+						if(result==0){
+							alert("查询失败");
+							return;
+						}
+						var arr=JSON.parse(result);
+						var user=JSON.parse(result)[0];
+						uname.value=user.uname;
+						upwd.value=user.upwd;
+						email.value=user.email;
+						phone.value=user.phone;
+						if(user.sex=="1"){
+							m.checked=true;
+						}else if(user.sex=="0"){
+							f.checked=true;
+						}else{
+							un.checked=true
+						};
+						
+					}
+				}
+				xhr.open("get","/pro/v1/queryuser/"+$uid,true);
+				xhr.send();
+			}
+			function updateUser(){
+				var $uid=uid.value;	
+				var $uname=uname.value;	
+				var $upwd=upwd.value;	
+				var $email=email.value;	
+				var $phone=phone.value;
+				var $sex=null;
+				if(m.checked){
+					$sex=1;
+				}else if(f.checked){
+					$sex=0;
+				}esle{
+					$sex=2
+				}
+			var str=new XMLHttpRequest();
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState==4&&xhr.status==200){
+					var result=xhr.responseText;
+						if(result=="1"){
+							alert("修改成功");
+							location.href="http://127.0.0.1:8080/userlist.html"
+						}else{
+							alert("修改失败")
+						}
+				}
+			}
+			xhr.open("put","/pro/v1/updateuser/",true);
+			var formdata=`uid=${$uid}&uname=${$uname}&upwd=${$upwd}&email=${$email}&${$phone}&${$sex}`;
+			console.log(formdata);
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+			xhr.send(formdata);
+		</script>
+	</head>
+<body onload="queryUser()">
+	<input type="text" id="uid" readonly><br>
+	<input type="text" id="uname"><br>
+	<input type="text" id="upwd"><br>
+	<input type="text" id="email"><br>
+	<input type="text" id="phone"><br>
+	<input type="radio" id="m" name="sex"><label for="m">男</label>
+	<input type="radio" id="f" name="sex"><label for="f">女</label> 	
+	<input type="radio" id="un" name="sex"><label for="un">保密</label>
+	<button onclick="updateUser()">修改</button>
+</body>
+</html>

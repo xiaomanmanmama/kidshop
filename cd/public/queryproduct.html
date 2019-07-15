@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function queryuser(){
+				var urlParams=new URLSearchParams(location.search);
+				var $uid=urlParmas.get("lid");
+				uid.value=$lid;
+				alert($uid);
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText;
+						if(result==0){
+							alert("查询失败");
+							return;
+						}
+				var arr=JSON.parse(result);
+				var product=arr[0];
+				price.value=product.price;
+				title.value=product.title;
+				Cname.value=product.Cname;
+				size.value=product.size;
+				color.value=product.color;
+				}
+			}
+
+			  xhr.open("get","/pru/v1/queryproduct/"+$lid,true);
+			  xhr.send();
+			 }
+			 function updateproduct(){
+				 var $lid=lid.value;
+				 var $price=price.value;
+				 var $title=title.value;
+				 var $Cname=Cname.value;
+				 var $size=size.value;
+				 var $color=color.value;
+				 var xhr=new XMLHttpRequest();
+				 xhr.onreadyststechange=function(){
+					 if(xhr.readyState==4&&xhr.status==200){
+						 var result=xhr.responseText;
+						 if(result=="1"){
+							 alert("修改成功")
+							 location.href="http://localhost:8080/productlist.html";
+							 }else{
+								 alert("修改失败")
+								 }
+							 }
+						 }
+						 xhr.open("put","/pru/v1/updateproduct"+$lid,true);
+						 var formdata=`lid=${$lid}&price=${$price}&title=${$title}&Cname=${$Cname}&size=${$size}&color=${$color}`;
+						 console.log(formdata)
+						 xhr.serRequestHdader("Content-type","application/x-www-form-urlencoded");
+						 xhr.send(formdata);
+						 }
+
+		</script>
+	</head>
+<body onload="queryuser()">
+	<input type="text" id="lid" readonly><br>
+	<input type="text" id="price"><br>
+	<input type="text" id="title"><br>
+	<input type="text" id="Cname"><br>
+	<input type="text" id="size"><br>
+	<input type="text" id="color"><br>
+	<button onclick="updateproduct()">修改</button>
+</body>
+</html>

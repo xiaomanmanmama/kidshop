@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function showlist(){
+				var xhr=new XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText;
+							var arr=JSON.parse(result);
+								var htmlstr=`
+								  <table border="1px" width="800px">
+										<tr>
+											<th>用户名称</th>
+											<th>用户密码</th>
+											<th>用户邮箱</th>
+											<th>联系电话</th>
+											<th>用户性别</th>
+											<th>操作</th>
+										</tr>
+										`;
+									for(var i=0;i<=arr.length;i++){
+										htmlstr+=`
+										<tr>
+											<td>${arr[i].uname}</td>
+											<td>${arr[i].upwd}</td>
+											<td>${arr[i].email}</td>
+											<td>${arr[i].phone}</td>
+											`;
+										var sex="";
+										if(arr[i].sex==1){
+											sex="男";
+										}else if(arr[i].sex==0){
+											sex="女";
+										}else{
+											sex="不确定"
+										}
+										htmlstr+=`<td>${sex}</td>
+											<td><a href="queryuser.html?uid=${arr[i].uid}">修改</a>
+											<a href="javascript:deleteuser(${arr[i].uid})">删除</a>
+											</td>
+										</tr>
+										`;
+									}
+									htmlstr+=`</table>`;
+					}
+				}
+				xhr.open("get","/pro/v1/userlist/",true);
+				xhr.send();
+			function deleteUser($uid){
+				var xhr=XMLHttpRequest();
+				xhr.onreadystatechange=function(){
+					if(xhr.readyState==4&&xhr.status==200){
+						var result=xhr.responseText;
+						if(result=="1"){
+							alert("删除成功");
+							}else{
+							alert("删除失败")
+							}
+						}
+					}
+				xhr.open("delete","/pro/v1/deleteuser/"+&uid,true)
+				xhr.send();
+			}
+		</script>
+	</head>
+<body onclick="showlist()">
+	<div id="d1"></div>
+</body>
+</html>
