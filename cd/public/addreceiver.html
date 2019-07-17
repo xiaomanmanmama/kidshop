@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<script>
+			function receiveraddress(){
+				var $uname=uname.value;
+				var $receiver=receiver.value;
+				var $province=province.value;
+				var $city=city.value;
+				var $county=county.value;
+				var $address=address.value;
+				var $phone=phone.value;
+				var $postcode=postcode.value;
+                var $is_default=null;
+				    if(y.checked){
+						$is_default="1";
+						}else if(n.checked){
+						$is_default="0";
+						}
+					var xhr=new XMLHttpRrquest();
+					xhr.onreadystatechange=function(){
+						if(xhr.readyState==4&&xhr.status==200){
+							var result=xhr.pesponseText;
+							if(result==1){
+								alert("地址填写成功")
+								}else{
+								alert("地址填写失败")
+								};
+							};
+						};
+					xhr.open("post","/receiver/v1/addreceiver",true);
+					var formdata=`uname=${$uname}&receiver=${$receiver}&province=${$province}&city=${city}&county=${county}&address=${$address}&phone=${phone}&postcode=${postcode}&is_default=${is_default}`;
+					console.log(formdata);
+					xhr.setReouestHeader("Content-Type","application/x-www-form-urlencoded");
+					xhr.send(formdata);
+					}
+		</script>
+	</head>
+<body>
+	用户名称<input type="text" id="uname"><br>
+	接收人姓名<input type="text" id="receiver"><br>
+	省<input type="text" id="province"><br>
+	市<input type="text" id="city"><br>
+	县<input type="text" id="county"><br>
+	详细地址<input type="text" id="address"><br>
+	联系方式<input type="text" id="phone"><br>
+	邮政编码<input type="text" id="postcode"><br>
+	是否默认<input type="text" id="is_default"><br>
+	<input type="radio" name="is_default" value="y"><label for="yes">是</label>
+	<input type="radio" name="is_default" value="n"><label for="no">否</label>
+	<button onclick="receiveraddress()">提交</button>
+</body>
+</html>
